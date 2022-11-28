@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODDO.Data", "ODDO.Data\ODDO.Data.csproj", "{42E13267-8214-469A-A584-0D304E42492F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ODDO.Api", "ODDO.Api\ODDO.Api.csproj", "{F41E42C4-6C71-406C-B401-74F722D0C444}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42E13267-8214-469A-A584-0D304E42492F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42E13267-8214-469A-A584-0D304E42492F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42E13267-8214-469A-A584-0D304E42492F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42E13267-8214-469A-A584-0D304E42492F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F41E42C4-6C71-406C-B401-74F722D0C444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F41E42C4-6C71-406C-B401-74F722D0C444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F41E42C4-6C71-406C-B401-74F722D0C444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F41E42C4-6C71-406C-B401-74F722D0C444}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

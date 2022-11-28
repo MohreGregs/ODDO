@@ -1,0 +1,6 @@
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
+ODDOApi.sln.DotSettings.user
