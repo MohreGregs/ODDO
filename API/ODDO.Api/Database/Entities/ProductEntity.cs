@@ -6,4 +6,6 @@ public class ProductEntity: BaseEntity
     public double Price { get; set; }
 
     public virtual ISet<IngredientEntity> Ingredients { get; set; } = new HashSet<IngredientEntity>();
+
+    public virtual ISet<OrderProductEntity> Orders { get; set; } = new HashSet<OrderProductEntity>();
 }
