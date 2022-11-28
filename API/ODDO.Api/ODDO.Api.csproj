@@ -22,10 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Database\Configurations" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\ODDO.Data\ODDO.Data.csproj" />
     </ItemGroup>
 
