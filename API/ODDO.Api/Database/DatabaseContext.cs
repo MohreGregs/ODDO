@@ -6,13 +6,13 @@ namespace ODDOApi.Database;
 
 public class DatabaseContext : DbContext
 {
-    public System.Data.Entity.DbSet<IngredientEntity> Ingredients { get; set; }
-    public System.Data.Entity.DbSet<OrderEntity> Orders { get; set; }
-    public System.Data.Entity.DbSet<OrderProductEntity> OrderProducts { get; set; }
-    public System.Data.Entity.DbSet<OrderProductIngredientEntity> OrderProductIngredients { get; set; }
-    public System.Data.Entity.DbSet<ProductEntity> Products { get; set; }
-    public System.Data.Entity.DbSet<TableEntity> Tables { get; set; }
-    public System.Data.Entity.DbSet<WaiterEntity> Waiter { get; set; }
+    public DbSet<IngredientEntity> Ingredients { get; set; }
+    public DbSet<OrderEntity> Orders { get; set; }
+    public DbSet<OrderProductEntity> OrderProducts { get; set; }
+    public DbSet<OrderProductIngredientEntity> OrderProductIngredients { get; set; }
+    public DbSet<ProductEntity> Products { get; set; }
+    public DbSet<TableEntity> Tables { get; set; }
+    public DbSet<WaiterEntity> Waiter { get; set; }
     
     public DatabaseContext(bool deleteDb = false)
     {

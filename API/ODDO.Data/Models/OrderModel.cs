@@ -2,8 +2,7 @@
 
 namespace ODDO.Data.Models; 
 
-public class OrderModel {
-    public int Id { get; set; }
+public class OrderModel: BaseModel {
     public Status Status { get; set; }
     public WaiterModel Waiter{ get; set; }
     public TableModel Table { get; set; }

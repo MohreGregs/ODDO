@@ -1,7 +1,6 @@
 ﻿namespace ODDO.Data.Models; 
 
-public class OrderProductModel {
-    public int Id { get; set; }
+public class OrderProductModel: BaseModel {
     public int Count { get; set; }
     public ProductModel Product { get; set; }
     
