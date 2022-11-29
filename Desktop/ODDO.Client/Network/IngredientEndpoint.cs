@@ -27,7 +27,7 @@ namespace ODDO.Client.Network
 
         public static async Task<IngredientModel?> EditIngredient(object ingredient)
         {
-            return await PostRequest<IngredientModel>("ingredient", "edit", ingredient);
+            return await PutRequest<IngredientModel>("ingredient", "edit", ingredient);
         }
 
         public static async Task<HttpResponseMessage> DeleteIngredient(int id)

@@ -15,7 +15,6 @@ namespace ODDO.Client.Network
             return await GetRequest<List<WaiterModel>>("waiter");
         }
 
-
         public static async Task<WaiterModel?> GetWaiterById(int id)
         {
             return await GetRequest<WaiterModel>("waiter", $"getById?id={id}");
@@ -28,7 +27,7 @@ namespace ODDO.Client.Network
 
         public static async Task<WaiterModel?> EditWaiter(object waiter)
         {
-            return await PostRequest<WaiterModel>("waiter", "edit", waiter);
+            return await PutRequest<WaiterModel>("waiter", "edit", waiter);
         }
 
         public static async Task<HttpResponseMessage> DeleteWaiter(int id)

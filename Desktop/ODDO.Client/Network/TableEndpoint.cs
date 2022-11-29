@@ -29,7 +29,7 @@ namespace ODDO.Client.Network
 
         public static async Task<TableModel?> EditTable(object table)
         {
-            return await PostRequest<TableModel>("table", "edit", table);
+            return await PutRequest<TableModel>("table", "edit", table);
         }
 
         public static async Task<HttpResponseMessage> DeleteTable(int id)

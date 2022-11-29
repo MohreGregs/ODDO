@@ -79,6 +79,30 @@ namespace ODDO.Client.Network
             }
         }
 
+        public static async Task<T?> PutRequest<T>(string controller, string action, object? data)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    var url = $"{Url}{controller}/{action}";
+                    var req = new HttpRequestMessage(HttpMethod.Put, url);
+                    var jsonstring = JsonConvert.SerializeObject(data);
+                    req.Content = new StringContent(jsonstring, Encoding.UTF8, "application/json");
+
+                    var result = await client.SendAsync(req);
+
+                    return JsonConvert.DeserializeObject<T>(await result.Content.ReadAsStringAsync());
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return default;
+            }
+        }
+
         
 
 
