@@ -1,6 +1,7 @@
-﻿using System.Data.Entity;
+﻿
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ODDO.Data.Enums;
 using ODDO.Data.Models;
 using ODDO.Data.Models.AddModels;
