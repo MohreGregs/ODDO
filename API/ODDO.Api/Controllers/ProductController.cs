@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using ODDO.Data.Models;
 using ODDO.Data.Models.AddModels;
 using ODDOApi.Database;
@@ -61,27 +62,43 @@ public class ProductController : BaseController<ProductController, ProductEntity
 
         return Ok(newProduct);
     }
-
+    
     [HttpPut]
     [Route("edit")]
-    public virtual async Task<ActionResult<ProductModel>> Edit([FromBody] ProductModel? model) {
+    public virtual async Task<ActionResult<ProductModel>> Edit([FromBody] EditProductModel? model) {
         if (model?.Id == default) return BadRequest();
 
-        var objToEdit = await _context.Set<ProductEntity>().FirstOrDefaultAsync(x => x.Id == model.Id);
+        var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == model.Id);
+        if (product == default) return NotFound();
 
-        if (objToEdit == default) return BadRequest();
+        product.Name = model.Name;
+        product.Price = model.Price;
 
-        objToEdit = _mapper.Map<ProductEntity>(model);
+        foreach (var ingredientId in model.IngredientsToAdd)
+        {
+            var ingredient = await _context.Ingredients.FirstOrDefaultAsync(x => x.Id == ingredientId);
+            if (ingredient == default) continue;
 
+            product.Ingredients.Add(ingredient);
+        }
+
+        foreach (var ingredientId in model.IngredientsToRemove)
+        {
+            var ingredient = await _context.Ingredients.FirstOrDefaultAsync(x => x.Id == ingredientId);
+            if (ingredient == default) continue;
+
+            product.Ingredients.Remove(ingredient);
+        }
+        
         await _context.SaveChangesAsync();
 
-        return Ok(objToEdit);
+        return Ok(_mapper.Map<ProductEntity>(product));
     }
 
     [HttpDelete]
     [Route("delete")]
     public virtual async Task<ActionResult> Delete(int id = 0) {
-        if (id == default)
+        if (id <= 0)
             return BadRequest();
 
         var objToDelete = await _context.Set<ProductEntity>().FirstOrDefaultAsync(x => x.Id == id);

@@ -21,7 +21,7 @@ public class IngredientController: BaseController<IngredientController, Ingredie
     [HttpGet]
     [Route("getById")]
     public async Task<ActionResult<IngredientEntity?>> GetById(int id = 0) {
-        if (id == default) return BadRequest();
+        if (id <= 0) return BadRequest();
 
         return await _context.Set<IngredientEntity>().FirstOrDefaultAsync(x => x.Id == id);
     }
@@ -58,7 +58,7 @@ public class IngredientController: BaseController<IngredientController, Ingredie
 
         var objToEdit = await _context.Set<IngredientEntity>().FirstOrDefaultAsync(x => x.Id == model.Id);
 
-        if (objToEdit == default) return BadRequest();
+        if (objToEdit == default) return NotFound();
 
         objToEdit = _mapper.Map<IngredientEntity>(model);
 
@@ -70,7 +70,7 @@ public class IngredientController: BaseController<IngredientController, Ingredie
     [HttpDelete]
     [Route("delete")]
     public virtual async Task<ActionResult> Delete(int id = 0) {
-        if (id == default)
+        if (id <= 0)
             return BadRequest();
 
         var objToDelete = await _context.Set<IngredientEntity>().FirstOrDefaultAsync(x => x.Id == id);

@@ -12,6 +12,44 @@ namespace ODDO.Api.Controllers;
 public class OrderController: BaseController<OrderController, OrderEntity, OrderModel, AddOrderModel> {
     public OrderController(ILogger<OrderController> logger, IMapper mapper, DatabaseContext context) : base(logger, mapper, context) {
     }
+    
+    [HttpGet]
+    public async Task<ActionResult<List<OrderModel>?>> Get() {
+        var data = await _context.Set<OrderEntity>().ToListAsync();
+
+        return Ok(_mapper.Map<List<OrderModel>>(data));
+    }
+
+    [HttpGet]
+    [Route("current")]
+    public async Task<ActionResult<List<OrderModel>?>> Current()
+    {
+        var orders = await _context.Orders.Where(x => x.Status != Status.Done).ToListAsync();
+
+        return Ok(_mapper.Map<List<OrderModel>>(orders));
+    }
+    
+    [HttpGet]
+    [Route("getById")]
+    public async Task<ActionResult<OrderModel?>> GetById(int id = 0) {
+        if (id <= 0) return BadRequest();
+
+        return await _context.Set<OrderModel>().FirstOrDefaultAsync(x => x.Id == id);
+    }
+
+    [HttpGet]
+    [Route("setStatus")]
+    public async Task<ActionResult<OrderModel>> SetStatus(Status status, int id = 0)
+    {
+        if (id <= 0) return BadRequest();
+
+        var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
+        order.Status = status;
+
+        await _context.SaveChangesAsync();
+
+        return Ok(order);
+    }
 
     [HttpPost]
     [Route("add")]
@@ -82,6 +120,23 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
             }
         }
 
-        return Problem();
+        return Problem(statusCode: 500, title: "Error while making order");
+    }
+    
+    [HttpDelete]
+    [Route("delete")]
+    public virtual async Task<ActionResult> Delete(int id = 0) {
+        if (id <= 0)
+            return BadRequest();
+
+        var objToDelete = await _context.Set<OrderEntity>().FirstOrDefaultAsync(x => x.Id == id);
+
+        if (objToDelete == default) return NotFound();
+
+        _context.Remove(objToDelete);
+
+        await _context.SaveChangesAsync();
+
+        return Ok();
     }
 }

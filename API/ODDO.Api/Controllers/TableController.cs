@@ -21,7 +21,7 @@ public class TableController: BaseController<TableController, TableEntity, Table
     [HttpGet]
     [Route("getById")]
     public async Task<ActionResult<TableEntity?>> GetById(int id = 0) {
-        if (id == default) return BadRequest();
+        if (id <= 0) return BadRequest();
 
         return await _context.Set<TableEntity>().FirstOrDefaultAsync(x => x.Id == id);
     }
@@ -70,7 +70,7 @@ public class TableController: BaseController<TableController, TableEntity, Table
     [HttpDelete]
     [Route("delete")]
     public virtual async Task<ActionResult> Delete(int id = 0) {
-        if (id == default)
+        if (id <= 0)
             return BadRequest();
 
         var objToDelete = await _context.Set<TableEntity>().FirstOrDefaultAsync(x => x.Id == id);
