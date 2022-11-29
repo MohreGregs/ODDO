@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 using System.Net.Http;
 
 
-namespace ODDODesktop.Network
+namespace ODDO.Client.Network
 {
-    public class API
+    public partial class API
     {
         public static string Url => "https://localhost:7095/";
 
