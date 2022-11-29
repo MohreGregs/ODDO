@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ODDO.Client.Network;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -26,9 +27,10 @@ namespace ODDODesktop
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        //private async void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var products = await API.GetProduct();
+        //    Console.WriteLine(products.First().Name);
+        //}
     }
 }
