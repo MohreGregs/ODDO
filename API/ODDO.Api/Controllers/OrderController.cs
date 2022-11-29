@@ -30,6 +30,21 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
     }
     
     [HttpGet]
+    [Route("getStatusesByTableId")]
+    public async Task<ActionResult<List<OrderStatusModel>?>> GetStatusById(int tableId = 0) {
+        if (tableId <= 0) return BadRequest();
+        var orderStatuses = new List<OrderStatusModel>();
+        
+        var orders = _context.Orders.Where(x => x.Table.Id == tableId);
+
+        foreach (var order in orders)
+        {
+            orderStatuses.Add(new OrderStatusModel{Id = order.Id, Status = order.Status});
+        }
+        return Ok(orderStatuses);
+    }
+    
+    [HttpGet]
     [Route("getById")]
     public async Task<ActionResult<OrderModel?>> GetById(int id = 0) {
         if (id <= 0) return BadRequest();
@@ -56,18 +71,19 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
     public async Task<ActionResult> Add([FromBody] AddOrderModel? model) {
         if (model == null) return BadRequest();
 
-        WaiterEntity? waiter = default;
-        if (model.WaiterId != null)
-        {
-            await _context.Waiter.FirstOrDefaultAsync(x => x.Id == model.WaiterId);
-            if (waiter == default) return BadRequest();
-        }
-        
-        var table = await _context.Tables.FirstOrDefaultAsync(x => x.Id == model.TableId);
-        if (table == default) return BadRequest();
-
-        using (var transaction = await _context.Database.BeginTransactionAsync()) {
+        await using (var transaction = await _context.Database.BeginTransactionAsync()) {
+            
             try {
+                WaiterEntity? waiter = default;
+                if (model.WaiterId != null)
+                {
+                    await _context.Waiter.FirstOrDefaultAsync(x => x.Id == model.WaiterId);
+                    if (waiter == default) return BadRequest();
+                }
+        
+                var table = await _context.Tables.FirstOrDefaultAsync(x => x.Id == model.TableId);
+                if (table == default) return BadRequest();
+                
                 var newOrder = new OrderEntity {
                     Status = Status.Ordered,
                     Waiter = waiter,
@@ -92,7 +108,7 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
                             Ingredient = ingredient
                         };
 
-                        _context.OrderProductIngredients.Add(newIngredient);
+                        await _context.OrderProductIngredients.AddAsync(newIngredient);
                     
                         await _context.SaveChangesAsync();
 
@@ -101,7 +117,7 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
                         newProduct.Ingredients.Add(newIngredient);
                     }
 
-                    _context.OrderProducts.Add(newProduct);
+                    await _context.OrderProducts.AddAsync(newProduct);
 
                     await _context.SaveChangesAsync();
 
@@ -110,7 +126,7 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
                     newOrder.Products.Add(newProduct);
                 }
 
-                _context.Orders.Add(newOrder);
+                await _context.Orders.AddAsync(newOrder);
 
                 await _context.SaveChangesAsync();
                 
