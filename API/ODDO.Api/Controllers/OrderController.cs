@@ -15,7 +15,7 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
     
     [HttpGet]
     public async Task<ActionResult<List<OrderModel>?>> Get() {
-        var data = await _context.Set<OrderEntity>().ToListAsync();
+        var data = await _context.Orders.ToListAsync();
 
         return Ok(_mapper.Map<List<OrderModel>>(data));
     }
@@ -24,7 +24,7 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
     [Route("current")]
     public async Task<ActionResult<List<OrderModel>?>> Current()
     {
-        var orders = await _context.Orders.Where(x => x.Status != Status.Done).ToListAsync();
+        var orders = await _context.Orders.Where(x => x.Status != Status.Archived).ToListAsync();
 
         return Ok(_mapper.Map<List<OrderModel>>(orders));
     }
@@ -35,7 +35,7 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
         if (tableId <= 0) return BadRequest();
         var orderStatuses = new List<OrderStatusModel>();
         
-        var orders = _context.Orders.Where(x => x.Table.Id == tableId);
+        var orders = _context.Orders.Where(x => x.Table.Id == tableId && x.Status != Status.Archived);
 
         foreach (var order in orders)
         {
