@@ -15,7 +15,7 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
 
     [HttpPost]
     [Route("add")]
-    public override async Task<ActionResult> Add([FromBody] AddOrderModel? model) {
+    public async Task<ActionResult> Add([FromBody] AddOrderModel? model) {
         if (model == null) return BadRequest();
 
         var waiter = await _context.Waiter.FirstOrDefaultAsync(x => x.Id == model.WaiterId);
