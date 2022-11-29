@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:ODDODesktop"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <BitmapImage x:Key="icon" UriSource="/Assets/Icon.ico"></BitmapImage>
     </Application.Resources>
 </Application>

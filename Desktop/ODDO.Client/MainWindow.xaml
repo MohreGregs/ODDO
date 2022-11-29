@@ -5,8 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ODDODesktop"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="ODDO" Height="450" Width="800">
     <Grid>
-        <TextBlock Text="EHRE" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid>
+            
+        </Grid>
+        <TabControl>
+            <TabItem Header="Produkte">
+                <DataGrid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" />
+                        <DataGridTextColumn Header="Kosten" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Extras" />
+            <TabItem Header="Bestellungen" />
+        </TabControl>
     </Grid>
 </Window>

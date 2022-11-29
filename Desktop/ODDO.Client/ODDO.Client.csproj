@@ -6,10 +6,20 @@
         <UseWPF>true</UseWPF>
         <LangVersion>10</LangVersion>
         <TargetFramework>net6.0-windows</TargetFramework>
+        <ApplicationIcon>Assets\Images\Icon.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
+      <Content Include="Assets\Images\Icon.ico" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\..\API\ODDO.Data\ODDO.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\" />
+      <Folder Include="Views\" />
     </ItemGroup>
 
 </Project>
