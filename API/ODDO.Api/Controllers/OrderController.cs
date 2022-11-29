@@ -56,8 +56,12 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
     public async Task<ActionResult> Add([FromBody] AddOrderModel? model) {
         if (model == null) return BadRequest();
 
-        var waiter = await _context.Waiter.FirstOrDefaultAsync(x => x.Id == model.WaiterId);
-        if (waiter == default) return BadRequest();
+        WaiterEntity? waiter = default;
+        if (model.WaiterId != null)
+        {
+            await _context.Waiter.FirstOrDefaultAsync(x => x.Id == model.WaiterId);
+            if (waiter == default) return BadRequest();
+        }
         
         var table = await _context.Tables.FirstOrDefaultAsync(x => x.Id == model.TableId);
         if (table == default) return BadRequest();
