@@ -1,4 +1,4 @@
-package art.mohregregs.oddo.Network.Models.AddModels
+package art.mohregregs.oddo.network.models.addModels
 
 class AddOrderModel(
     var id: Int = -1,

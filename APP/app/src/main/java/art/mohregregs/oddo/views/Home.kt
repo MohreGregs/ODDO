@@ -1,4 +1,4 @@
-package art.mohregregs.oddo.Views
+package art.mohregregs.oddo.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button

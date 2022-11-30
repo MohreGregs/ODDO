@@ -1,8 +1,8 @@
-package art.mohregregs.oddo.Network
+package art.mohregregs.oddo.network
 
 
 import android.content.Context
-import art.mohregregs.oddo.Network.Models.ProductModel
+import art.mohregregs.oddo.network.models.ProductModel
 import com.android.volley.Request
 import com.android.volley.RetryPolicy
 import com.android.volley.VolleyError
@@ -10,7 +10,6 @@ import com.android.volley.toolbox.JsonArrayRequest
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONException
-import java.io.Serializable
 import java.lang.reflect.Type
 
 

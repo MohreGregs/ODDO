@@ -1,4 +1,4 @@
-package art.mohregregs.oddo.Network
+package art.mohregregs.oddo.network
 
 import android.content.Context
 import com.android.volley.Request

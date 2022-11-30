@@ -6,21 +6,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import art.mohregregs.oddo.Network.ApiEndpoint
-import art.mohregregs.oddo.Network.Models.ProductModel
-import art.mohregregs.oddo.Views.*
+import art.mohregregs.oddo.views.*
 import art.mohregregs.oddo.ui.theme.ODDOTheme
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {

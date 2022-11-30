@@ -1,4 +1,4 @@
-package art.mohregregs.oddo.Views
+package art.mohregregs.oddo.views
 
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -7,8 +7,8 @@ import androidx.navigation.NavController
 import art.mohregregs.oddo.DrawerScreens
 
 @Composable
-fun Login(navController: NavController){
-    Button(onClick = { navController.navigate(DrawerScreens.Order.route) }) {
-        Text(text = "Login")
+fun Checkout(navController: NavController){
+    Button(onClick = { navController.navigate(DrawerScreens.CurrentOrders.route) }) {
+        Text(text = "Checkout")
     }
 }
