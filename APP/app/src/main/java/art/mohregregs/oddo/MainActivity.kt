@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import art.mohregregs.oddo.Network.ApiEndpoint
+import art.mohregregs.oddo.Network.Models.ProductModel
 import art.mohregregs.oddo.ui.theme.ODDOTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,22 +22,18 @@ class MainActivity : ComponentActivity() {
             ODDOTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    var products: MutableList<ProductModel>? = null
+                    Button(onClick = {
+                        ApiEndpoint.getProducts(this) { result ->
+                            products = result?.toMutableList() ?: mutableListOf()
+                        }
+                    }) {
+                        Text(text = "Test Get Product")
+                    }
+                    Text(text = products?.first().toString()?: "Nope")
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    ODDOTheme {
-        Greeting("Android")
-    }
-}
