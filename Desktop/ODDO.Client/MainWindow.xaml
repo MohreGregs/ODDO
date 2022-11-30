@@ -11,17 +11,9 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid>
-        </Grid>
         <TabControl>
             <TabItem Header="Produkte">
                 <views:Products />
-                <!--<DataGrid>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name" />
-                        <DataGridTextColumn Header="Kosten" />
-                    </DataGrid.Columns>
-                </DataGrid>-->
             </TabItem>
             <TabItem Header="Extras">
                 <views:Ingredients />
