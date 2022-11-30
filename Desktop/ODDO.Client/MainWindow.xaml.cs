@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ODDO.Client.Components;
 
 namespace ODDODesktop
 {
@@ -25,6 +26,9 @@ namespace ODDODesktop
         public MainWindow()
         {
             InitializeComponent();
+
+            AddProductDialog dialog = new AddProductDialog();
+            dialog.Show();
         }
 
         //private async void Button_Click(object sender, RoutedEventArgs e)
