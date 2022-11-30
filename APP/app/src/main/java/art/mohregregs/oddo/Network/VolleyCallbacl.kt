@@ -1,5 +1,5 @@
 package art.mohregregs.oddo.Network
 
 interface VolleyCallbacl {
-    fun <T> onSuccess(result: T)
+    fun <T> onSuccessCallback(result: T)
 }
