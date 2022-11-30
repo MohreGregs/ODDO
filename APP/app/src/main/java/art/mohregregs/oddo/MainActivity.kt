@@ -22,18 +22,11 @@ class MainActivity : ComponentActivity() {
             ODDOTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                    var products: MutableList<ProductModel>? = null
-                    Button(onClick = {
-                        ApiEndpoint.getProducts(this) { result ->
-                            products = result?.toMutableList() ?: mutableListOf()
-                        }
-                    }) {
-                        Text(text = "Test Get Product")
-                    }
-                    Text(text = products?.first().toString()?: "Nope")
+
                 }
             }
         }
     }
 }
+
 
