@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -14,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import art.mohregregs.oddo.ui.theme.ODDOTheme
 import art.mohregregs.oddo.views.*
+import art.mohregregs.oddo.views.viewmodel.OrderViewModel
 import kotlinx.coroutines.launch
 
 
@@ -26,6 +28,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val orderViewModel by viewModels<OrderViewModel> ()
+
         setContent {
             val context = LocalContext.current
             CompositionLocalProvider(
@@ -37,7 +42,7 @@ class MainActivity : ComponentActivity() {
                     ODDOTheme {
                         // A surface container using the 'background' color from the theme
                         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-                            AppMainScreen()
+                            AppMainScreen(orderViewModel)
                         }
                     }
                 }
@@ -48,7 +53,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AppMainScreen(){
+fun AppMainScreen(
+    orderViewModel: OrderViewModel
+){
     val navController = rememberNavController()
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState(rememberDrawerState(initialValue = DrawerValue.Closed))
@@ -81,7 +88,7 @@ fun AppMainScreen(){
             }
 
             composable(DrawerScreens.Order.route){
-                Order(navController)
+                Order(navController, orderViewModel)
             }
 
             composable(DrawerScreens.Checkout.route){

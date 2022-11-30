@@ -14,4 +14,5 @@
     <string name="to_checkout">To Checkout</string>
     <string name="login_as_waiter">Login as waiter</string>
     <string name="device_for_guest">Device for guest</string>
+    <string name="no_products_available">No Products available</string>
 </resources>

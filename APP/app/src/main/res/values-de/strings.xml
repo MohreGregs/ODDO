@@ -14,4 +14,5 @@
     <string name="to_checkout">Zur Kasse</string>
     <string name="login_as_waiter">Als Kellner einloggen</string>
     <string name="device_for_guest">Gerät für Gäste</string>
+    <string name="no_products_available">Keine Producte verfügbar</string>
 </resources>
