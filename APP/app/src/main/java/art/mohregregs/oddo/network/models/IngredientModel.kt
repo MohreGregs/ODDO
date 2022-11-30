@@ -1,4 +1,4 @@
-package art.mohregregs.oddo.Network.Models
+package art.mohregregs.oddo.network.models
 
 class IngredientModel(
     var id: Int = -1,

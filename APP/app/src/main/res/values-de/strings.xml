@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home">Home</string>
+    <string name="login">Einloggen</string>
+    <string name="order">Bestellung</string>
+    <string name="checkout">Checkout</string>
+    <string name="current_order">Laufende Bestellungen</string>
+    <string name="welcome_to">Willkommen in</string>
+    <string name="start_order">Bestellung starten</string>
+    <string name="eglish">Englisch</string>
+    <string name="german">Deutsch</string>
+    <string name="do_another_orer">Weiter Bestellung</string>
+    <string name="done_with_ordering">Fertig mit bestellen</string>
+    <string name="to_checkout">Zur Kasse</string>
+    <string name="login_as_waiter">Als Kellner einloggen</string>
+    <string name="device_for_guest">Gerät für Gäste</string>
+</resources>

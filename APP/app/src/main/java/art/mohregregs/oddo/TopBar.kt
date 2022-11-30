@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
@@ -19,7 +20,7 @@ fun TopBar(
     val currentDestination = navBackStackEntry?.destination
     TopAppBar (
         title = {
-            Text(text = getTitleByRoute(currentDestination?.route))
+            Text(text = stringResource(id = getTitleByRoute(currentDestination?.route)))
         },
         navigationIcon = {
             if(currentDestination != null && (currentDestination.route != "home" && currentDestination.route != "homeOrder")){
@@ -31,7 +32,7 @@ fun TopBar(
     )
 }
 
-fun getTitleByRoute(route:String?): String {
+fun getTitleByRoute(route:String?): Int {
     return when (route) {
         "home" -> DrawerScreens.Home.title
         "login" -> DrawerScreens.Login.title
@@ -39,6 +40,6 @@ fun getTitleByRoute(route:String?): String {
         "order" -> DrawerScreens.Order.title
         "checkout" -> DrawerScreens.Checkout.title
         "currentOrders" -> DrawerScreens.Checkout.title
-        else -> "ODDO"
+        else -> R.string.app_name
     }
 }

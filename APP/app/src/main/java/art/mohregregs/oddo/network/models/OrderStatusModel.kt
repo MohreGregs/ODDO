@@ -1,6 +1,6 @@
-package art.mohregregs.oddo.Network.Models
+package art.mohregregs.oddo.network.models
 
-import art.mohregregs.oddo.Network.Enums.Status
+import art.mohregregs.oddo.network.enums.Status
 
 class OrderStatusModel(
     var id: Int = -1,
