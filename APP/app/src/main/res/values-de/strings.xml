@@ -3,7 +3,7 @@
     <string name="home">Home</string>
     <string name="login">Einloggen</string>
     <string name="order">Bestellung</string>
-    <string name="checkout">Checkout</string>
+    <string name="checkout">Bezahlen</string>
     <string name="current_order">Laufende Bestellungen</string>
     <string name="welcome_to">Willkommen in</string>
     <string name="start_order">Bestellung starten</string>
@@ -14,4 +14,7 @@
     <string name="to_checkout">Zur Kasse</string>
     <string name="login_as_waiter">Als Kellner einloggen</string>
     <string name="device_for_guest">Gerät für Gäste</string>
+    <string name="no_products_available">Keine Producte verfügbar</string>
+    <string name="total">Gesamt</string>
+    <string name="add_to_order">Zur Bestellung hinzufügen</string>
 </resources>

@@ -17,14 +17,16 @@ import androidx.navigation.NavController
 import art.mohregregs.oddo.DrawerScreens
 import art.mohregregs.oddo.MainActivity.MainActivity.LocalMutableContext
 import art.mohregregs.oddo.R
+import art.mohregregs.oddo.views.viewmodel.OrderViewModel
 import java.util.Locale
 
 @Composable
-fun HomeOrder(navController: NavController){
+fun HomeOrder(navController: NavController, orderViewModel: OrderViewModel){
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val context = LocalContext.current
         Text(text = stringResource(R.string.welcome_to), fontSize = 25.sp)
         Text(text = "<restaurant name>", fontSize = 25.sp)
 
@@ -41,7 +43,10 @@ fun HomeOrder(navController: NavController){
                 .fillMaxWidth()
                 .height(100.dp)
                 .padding(10.dp),
-            onClick = { navController.navigate(DrawerScreens.Order.route) }
+            onClick = {
+                orderViewModel.getProducts(context)
+                navController.navigate(DrawerScreens.Order.route)
+            }
         ) {
             Text(text = stringResource(R.string.start_order))
         }
