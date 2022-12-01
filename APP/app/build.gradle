@@ -66,4 +66,7 @@ dependencies {
 
     implementation("com.android.volley:volley:1.2.1")
     implementation 'com.google.code.gson:gson:2.8.7'
+
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_ui_version"
 }

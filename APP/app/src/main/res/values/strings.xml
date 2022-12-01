@@ -15,4 +15,6 @@
     <string name="login_as_waiter">Login as waiter</string>
     <string name="device_for_guest">Device for guest</string>
     <string name="no_products_available">No Products available</string>
+    <string name="total">\"Total: \"</string>
+    <string name="add_to_order">Add to order</string>
 </resources>

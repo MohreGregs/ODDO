@@ -15,4 +15,6 @@
     <string name="login_as_waiter">Als Kellner einloggen</string>
     <string name="device_for_guest">Gerät für Gäste</string>
     <string name="no_products_available">Keine Producte verfügbar</string>
+    <string name="total">Gesamt</string>
+    <string name="add_to_order">Zur Bestellung hinzufügen</string>
 </resources>
