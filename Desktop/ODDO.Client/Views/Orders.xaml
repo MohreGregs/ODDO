@@ -11,6 +11,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <TextBlock FontWeight="Bold" FontSize="16">Bestellungen</TextBlock>
         <ListView Grid.Row="1" Name="OrderList" Width="650" HorizontalAlignment="Left">
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
@@ -58,6 +59,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <TextBlock Margin="660,0,0,0" FontWeight="Bold" FontSize="16">Gerichte</TextBlock>
         <ListView Grid.Row="1" Name="ProductList" Margin="660,0,0,0" Width="460" HorizontalAlignment="Left">
             <ListView.Resources>
                 <Style TargetType="ListViewItem">

@@ -11,7 +11,7 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" FontWeight="Bold" FontSize="16">Übersicht</TextBlock>
+        <TextBlock Grid.Row="0" FontWeight="Bold" FontSize="16">Produkt-Übersicht (Gerichte)</TextBlock>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button Click="AddProducts" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top">Hinzufügen</Button>
             <Button Click="ReloadProducts" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top">Aktualisieren</Button>
