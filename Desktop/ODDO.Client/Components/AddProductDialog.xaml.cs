@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Syncfusion.Windows.Shared;
+using ODDO.Client.Views;
 
 namespace ODDO.Client.Components
 {
@@ -23,8 +24,11 @@ namespace ODDO.Client.Components
     /// </summary>
     public partial class AddProductDialog : Window
     {
-        public AddProductDialog()
+
+        Products products;
+        public AddProductDialog(Products products)
         {
+            this.products = products;
             InitializeComponent();
 
             this.fillIngredientList();
@@ -67,6 +71,7 @@ namespace ODDO.Client.Components
                 }
             }
             await API.AddProduct(newProduct);
+            this.products.getProducts();
             Close();
         }
     }

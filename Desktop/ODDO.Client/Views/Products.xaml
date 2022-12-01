@@ -54,7 +54,7 @@
                     <GridViewColumn>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Löschen" Click="DeleteProduct" />
+                                <Button Tag="{Binding Id}" Content="Löschen" Click="DeleteProduct" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

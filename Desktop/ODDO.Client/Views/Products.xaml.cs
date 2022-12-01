@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ODDO.Client.Components;
 
 namespace ODDO.Client.Views
 {
@@ -35,7 +36,7 @@ namespace ODDO.Client.Views
             getProducts();
         }
 
-        private async void getProducts()
+        public async void getProducts()
         {
             var loadedProducts = await API.GetProduct();
             if (loadedProducts != null)
@@ -107,7 +108,8 @@ namespace ODDO.Client.Views
 
         private void AddProducts(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Add");
+            AddProductDialog dialog = new AddProductDialog(this);
+            dialog.Show();
         }
 
         private void UpdateProduct(object sender, RoutedEventArgs e)
@@ -115,9 +117,11 @@ namespace ODDO.Client.Views
             MessageBox.Show("Update");
         }
 
-        private void DeleteProduct(object sender, RoutedEventArgs e)
+        private async void DeleteProduct(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Delete");
+            int id = (int)((Button)sender).Tag;
+            await API.DeleteProduct(id);
+            getProducts();
         }
     }
 }

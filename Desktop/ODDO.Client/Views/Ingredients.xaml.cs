@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ODDO.Data.Models;
+using ODDO.Client.Components;
 
 namespace ODDO.Client.Views
 {
@@ -35,7 +36,7 @@ namespace ODDO.Client.Views
             getIngredients();
         }
 
-        private async void getIngredients()
+        public async void getIngredients()
         {
             var loadedIncredients = await API.GetIngredient();
             if (loadedIncredients != null)
@@ -103,7 +104,8 @@ namespace ODDO.Client.Views
 
         private void AddIngredients(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Add");
+            AddIngredientDialog dialog = new AddIngredientDialog(this);
+            dialog.Show();
         }
 
         private void UpdateIngredient(object sender, RoutedEventArgs e)
@@ -111,9 +113,11 @@ namespace ODDO.Client.Views
             MessageBox.Show("Update");
         }
 
-        private void DeleteIngredient(object sender, RoutedEventArgs e)
+        private async void DeleteIngredient(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Delete");
+            int id = (int)((Button)sender).Tag;
+            await API.DeleteIngredient(id);
+            getIngredients();
         }
     }
 }
