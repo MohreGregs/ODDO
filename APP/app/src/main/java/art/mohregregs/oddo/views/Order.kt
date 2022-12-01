@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -22,18 +21,19 @@ import art.mohregregs.oddo.views.viewmodel.OrderViewModel
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.sp
 import art.mohregregs.oddo.views.viewmodel.models.IngredientWithCount
 import art.mohregregs.oddo.views.viewmodel.models.ProductWithCount
 
 @Composable
 fun Order(navController: NavController, orderViewModel: OrderViewModel){
-
-    orderViewModel.getProducts(LocalContext.current)
-
     val products: List<ProductWithCount> by orderViewModel.products.observeAsState(listOf())
 
+    OrderScreen(navController, products, orderViewModel)
+}
+
+@Composable
+fun OrderScreen(navController: NavController, products: List<ProductWithCount>, orderViewModel: OrderViewModel){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +45,7 @@ fun Order(navController: NavController, orderViewModel: OrderViewModel){
             LazyColumn() {
                 items(items = products, itemContent ={ product ->
                     ProductListItem(productModel = product, orderViewModel = orderViewModel)
-                    Divider(color = Color.LightGray, thickness = 1.dp)
+                    Divider(color = Color.Gray, thickness = 1.dp)
                 })
             }
             Spacer(modifier = Modifier.weight(1f))
@@ -53,7 +53,9 @@ fun Order(navController: NavController, orderViewModel: OrderViewModel){
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                onClick = { navController.navigate(DrawerScreens.Checkout.route) }
+                onClick = {
+                    navController.navigate(DrawerScreens.Checkout.route)
+                }
             ) {
                 Text(text = stringResource(R.string.to_checkout))
             }
@@ -78,9 +80,13 @@ fun ProductListItem(productModel: ProductWithCount, orderViewModel: OrderViewMod
             Box{
                 ListItem(
                     text = {
-                        Row(){
-                            Text(text = productModel.product.name, modifier = Modifier.padding(4.dp), fontSize = 30.sp)
-                            Spacer(modifier = Modifier.weight(1f))
+                        Text(text = productModel.product.name, modifier = Modifier.padding(4.dp), fontSize = 30.sp)
+                    },
+                    secondaryText = {
+                        Text(text = productModel.product.price.toString() + "€")
+                    },
+                    trailing = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
                             IconButton(onClick = {
                                 orderViewModel.setAmountOfProduct(productId = productModel.product.id, productModel.count + 1)
                                 isExpanded = true
@@ -90,17 +96,12 @@ fun ProductListItem(productModel: ProductWithCount, orderViewModel: OrderViewMod
                             Text(text = productModel.count.toString())
                             IconButton(onClick = {
                                 orderViewModel.setAmountOfProduct(productId = productModel.product.id, productModel.count - 1)
-                            }) {
+                                if (productModel.count == 0){
+                                    isExpanded = false
+                                }
+                            }, enabled = productModel.count != 0) {
                                 Icon(imageVector = Icons.Filled.Clear, contentDescription = "")
                             }
-                        }
-                    },
-                    secondaryText = {
-                        Text(text = productModel.product.price.toString() + "€")
-                    },
-                    trailing = {
-                        IconButton(onClick = { isExpanded != isExpanded }) {
-                            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "")
                         }
                     }
                 )
@@ -116,9 +117,17 @@ fun ProductListItem(productModel: ProductWithCount, orderViewModel: OrderViewMod
                         }
                     }
 
-                    Text(text = stringResource(R.string.total) + ": ")
+                    Row(modifier = Modifier.padding(5.dp)) {
+                        Text(text = stringResource(R.string.total) + ":")
+                        Spacer(modifier = Modifier.weight(1f))
+                        Text(text = orderViewModel.getTotalAmountOfProduct(productModel).toString() + "€")
+                    }
 
-                    Button(onClick = { orderViewModel.addProductToOrder(productModel); isExpanded = false }) {
+                    Button(onClick = {
+                        orderViewModel.addProductToOrder(productModel)
+                        orderViewModel.resetProductCount(productModel.product.id)
+                        isExpanded = false
+                    }, enabled = productModel.count != 0) {
                         Text(text = stringResource(R.string.add_to_order))
                     }
                 }
@@ -138,7 +147,7 @@ fun ExtraItem(productId: Int, extra: IngredientWithCount, orderViewModel: OrderV
         Text(text = extra.ingredient.price.toString() + "€")
     },
     trailing = {
-        Row(){
+        Row(verticalAlignment = Alignment.CenterVertically){
             IconButton(onClick = {
                 orderViewModel.setAmountOfExtra(productId, extra.ingredient.id, extra.count + 1)
             }) {

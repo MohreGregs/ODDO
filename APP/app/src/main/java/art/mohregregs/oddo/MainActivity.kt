@@ -84,7 +84,7 @@ fun AppMainScreen(
             }
 
             composable(DrawerScreens.HomeOrder.route){
-                HomeOrder(navController)
+                HomeOrder(navController, orderViewModel)
             }
 
             composable(DrawerScreens.Order.route){
