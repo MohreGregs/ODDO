@@ -3,6 +3,7 @@ package art.mohregregs.oddo.network
 
 import android.content.Context
 import art.mohregregs.oddo.network.models.OrderModel
+import art.mohregregs.oddo.network.models.OrderStatusModel
 import art.mohregregs.oddo.network.models.ProductModel
 import art.mohregregs.oddo.network.models.addModels.AddOrderModel
 import com.android.volley.Request
@@ -87,14 +88,6 @@ class ApiEndpoint {
             OddoRequestQueue.getInstance(context).addToRequestQueue(request)
         }
 
-        fun <T> getRequestFromServer(context: Context, type: Type, controller: String, action: String = "", onSuccess: (result: T) -> Unit){
-            getRequest<T>(context, type, controller, action, object: VolleyCallbacl{
-                override fun <T> onSuccessCallback(result: T) {
-
-                }
-            })
-        }
-
         fun getProducts(context: Context, onSuccess: (result: List<ProductModel>?) -> Unit){
             val type = object : TypeToken<List<ProductModel>?>() {}.type
             //getRequestFromServer(context, type, "product", "", onSuccess)
@@ -102,6 +95,16 @@ class ApiEndpoint {
             getRequest<List<ProductModel>?>(context, type, "product", "", object: VolleyCallbacl{
                 override fun <T> onSuccessCallback(result: T) {
                     onSuccess(result as List<ProductModel>?)
+                }
+            })
+        }
+
+        fun getStatusByTableId(context: Context, tableId: Int, onSuccess: (result: List<OrderStatusModel>?) -> Unit){
+            val type = object: TypeToken<List<OrderStatusModel>?>(){}.type
+
+            getRequest<List<OrderStatusModel>?>(context, type, "order", "getStatusesByTableId?tableId=$tableId", object: VolleyCallbacl{
+                override fun <T> onSuccessCallback(result: T) {
+                    onSuccess(result as List<OrderStatusModel>?)
                 }
             })
         }

@@ -22,6 +22,12 @@ class OrderViewModel: ViewModel() {
     private var _currentOrdersOfTable = MutableLiveData(listOf<OrderModel>())
     val currentOrdersOfTable: LiveData<List<OrderModel>> = _currentOrdersOfTable
 
+    fun resetViewModel() {
+        _products.value = listOf()
+        _productsToOrder.value = listOf()
+        _currentOrdersOfTable.value = listOf()
+    }
+
     fun getProducts(context: Context){
         ApiEndpoint.getProducts(context){ data ->
             _products.value = listOf()
@@ -39,6 +45,20 @@ class OrderViewModel: ViewModel() {
         ApiEndpoint.addOrder(context, getOrderBody()){
             if (it != null) {
                 _currentOrdersOfTable.value = _currentOrdersOfTable.value!!.plus(it)
+            }
+        }
+    }
+
+    fun getOrderStatusesByTableId(context: Context){
+        ApiEndpoint.getStatusByTableId(context, 1){ stati ->
+            stati?.forEach { status ->
+                val temp = _currentOrdersOfTable.value
+
+                val order = temp?.find { x -> x.id == status.id } ?: return@forEach
+                order.status = status.status
+
+                _currentOrdersOfTable.value = listOf()
+                _currentOrdersOfTable.value = _currentOrdersOfTable.value!!.plus(temp)
             }
         }
     }
@@ -146,5 +166,18 @@ class OrderViewModel: ViewModel() {
             ingredientPrice += ingredient.ingredient.price * ingredient.count
         }
         return product.product.price * product.count + ingredientPrice
+    }
+
+    fun getTotalOrderAmount(): Double{
+        var totalAmount = 0.0
+        _productsToOrder.value!!.forEach { product ->
+            var ingredientPrice = 0.0
+            product.ingredients.forEach { ingredient ->
+                ingredientPrice += ingredient.ingredient.price * ingredient.count
+            }
+            totalAmount += product.product.price * product.count + ingredientPrice
+        }
+
+        return totalAmount
     }
 }

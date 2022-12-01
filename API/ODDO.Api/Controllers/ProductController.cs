@@ -25,7 +25,9 @@ public class ProductController : BaseController<ProductController, ProductEntity
     public async Task<ActionResult<ProductEntity?>> GetById(int id = 0) {
         if (id <= 0) return BadRequest();
 
-        return await _context.Set<ProductEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        var product = await _context.Set<ProductEntity>().FirstOrDefaultAsync(x => x.Id == id);
+
+        return Ok(_mapper.Map<ProductModel>(product));
     }
 
     [HttpPost]
@@ -60,7 +62,7 @@ public class ProductController : BaseController<ProductController, ProductEntity
             return StatusCode(500, ex.ToString());
         }
 
-        return Ok(newProduct);
+        return Ok(_mapper.Map<ProductModel>(newProduct));
     }
     
     [HttpPut]

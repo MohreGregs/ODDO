@@ -4,7 +4,7 @@ import art.mohregregs.oddo.network.enums.Status
 
 class OrderStatusModel(
     var id: Int = -1,
-    var status: Status = Status.ORDERED
+    var status: Int = 0
 ) {
 
 }

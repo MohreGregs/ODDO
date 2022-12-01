@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import art.mohregregs.oddo.DrawerScreens
 import art.mohregregs.oddo.R
+import art.mohregregs.oddo.format
 import art.mohregregs.oddo.network.models.OrderProductIngredientModel
 import art.mohregregs.oddo.network.models.OrderProductModel
 import art.mohregregs.oddo.views.viewmodel.OrderViewModel
@@ -33,17 +34,28 @@ fun Checkout(navController: NavController, orderViewModel: OrderViewModel){
             .fillMaxSize()
             .padding(10.dp)) {
                 var scrollState = rememberScrollState()
-                Column(modifier = Modifier.verticalScroll(scrollState).weight(1f)) {
+                Column(modifier = Modifier
+                    .verticalScroll(scrollState)
+                    .weight(1f)) {
                     products.forEach { product ->
                         CheckoutProductItem(product, orderViewModel, navController, products)
                     }
                 }
+            
+            Row(Modifier.padding(10.dp)) {
+                Text(text = stringResource(id = R.string.total), fontSize = 20.sp)
+                Spacer(modifier = Modifier.weight(1f))
+                Text(text = orderViewModel.getTotalOrderAmount().format(2) + "€", fontSize = 20.sp)
+            }
+            
             Button(
                 onClick = {
                     orderViewModel.addOrder(context)
                     navController.navigate(DrawerScreens.CurrentOrders.route)
                           },
-                modifier = Modifier.fillMaxWidth().height(50.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
             ) {
                 Text(text = stringResource(id = R.string.checkout))
             }
@@ -59,6 +71,7 @@ fun CheckoutProductItem(productModel: OrderProductModel, orderViewModel: OrderVi
             text = {
                 Text(text = productModel.count.toString() + "x " + productModel.product.name, fontSize = 20.sp)
             },
+            secondaryText = { Text(text = productModel.product.price.format(2))},
             trailing = {
                 IconButton(onClick = {
                     if(orderViewModel.removeProductFromOrder(productModel)) navController.popBackStack()
@@ -86,6 +99,7 @@ fun CheckoutIngredientItem(extra: OrderProductIngredientModel, orderViewModel: O
             text = {
                 Text(text = extra.count.toString() + "x " + extra.ingredient.name)
             },
+            secondaryText = { Text(text = extra.ingredient.price.format(2) + "€")},
             trailing = {
                 IconButton(onClick = {
                     orderViewModel.removeExtraFromProduct(product, extra)

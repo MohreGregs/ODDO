@@ -1,5 +1,5 @@
 package art.mohregregs.oddo.network.enums
 
-enum class Status {
-    ORDERED, INPROGRESS, DONE, ARCHIVED
+enum class Status(val number: Int) {
+    ORDERED(0), INPROGRESS(1), DONE(2), ARCHIVED(3)
 }
