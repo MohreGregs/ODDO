@@ -92,7 +92,7 @@ fun AppMainScreen(
             }
 
             composable(DrawerScreens.Checkout.route){
-                Checkout(navController)
+                Checkout(navController, orderViewModel)
             }
 
             composable(DrawerScreens.CurrentOrders.route){
@@ -102,3 +102,5 @@ fun AppMainScreen(
 
     }
 }
+
+fun Double.format(digits: Int) = "%.${digits}f".format(this)
