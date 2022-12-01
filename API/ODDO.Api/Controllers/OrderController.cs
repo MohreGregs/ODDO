@@ -72,76 +72,59 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
     public async Task<ActionResult> Add([FromBody] AddOrderModel? model) {
         if (model == null) return BadRequest();
 
-        await using (var transaction = await _context.Database.BeginTransactionAsync()) {
-            
-            try {
-                WaiterEntity? waiter = default;
-                if (model.WaiterId != null)
-                {
-                    await _context.Waiter.FirstOrDefaultAsync(x => x.Id == model.WaiterId);
-                    if (waiter == default) return BadRequest();
-                }
         
-                var table = await _context.Tables.FirstOrDefaultAsync(x => x.Id == model.TableId);
-                if (table == default) return BadRequest();
-                
-                var newOrder = new OrderEntity {
-                    Status = Status.Ordered,
-                    Waiter = waiter,
-                    Table = table
+        WaiterEntity? waiter = default;
+        if (model.WaiterId != null)
+        {
+            await _context.Waiter.FirstOrDefaultAsync(x => x.Id == model.WaiterId);
+            if (waiter == default) return BadRequest();
+        }
+
+        var table = await _context.Tables.FirstOrDefaultAsync(x => x.Id == model.TableId);
+        if (table == default) return BadRequest();
+        
+        var newOrder = new OrderEntity {
+            Status = Status.Ordered,
+            Waiter = waiter,
+            Table = table
+        };
+        
+        await _context.Orders.AddAsync(newOrder);
+
+        await _context.SaveChangesAsync();
+
+        foreach (var orderProduct in model.Products) {
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == orderProduct.ProductId);
+            var newProduct = new OrderProductEntity {
+                Count = orderProduct.Count,
+                Product = product,
+                Order = newOrder
+            };
+    
+            await _context.OrderProducts.AddAsync(newProduct);
+
+            await _context.SaveChangesAsync();
+            
+            foreach (var productIngredient in orderProduct.Ingredients) {
+                var ingredient =
+                    await _context.Ingredients.FirstOrDefaultAsync(x => x.Id == productIngredient.IngredientId);
+
+                if (ingredient == default) continue;
+        
+                var newIngredient = new OrderProductIngredientEntity {
+                    Count = productIngredient.Count,
+                    Ingredient = ingredient,
+                    OrderProduct = newProduct
                 };
 
-                foreach (var orderProduct in model.Products) {
-                    var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == orderProduct.ProductId);
-                    var newProduct = new OrderProductEntity {
-                        Count = orderProduct.Count,
-                        Product = product
-                    };
+                await _context.OrderProductIngredients.AddAsync(newIngredient);
             
-                    foreach (var productIngredient in orderProduct.Ingredients) {
-                        var ingredient =
-                            await _context.Ingredients.FirstOrDefaultAsync(x => x.Id == productIngredient.IngredientId);
-
-                        if (ingredient == default) continue;
-                
-                        var newIngredient = new OrderProductIngredientEntity {
-                            Count = productIngredient.Count,
-                            Ingredient = ingredient
-                        };
-
-                        await _context.OrderProductIngredients.AddAsync(newIngredient);
-                    
-                        await _context.SaveChangesAsync();
-
-                        await transaction.CommitAsync();
-                        
-                        newProduct.Ingredients.Add(newIngredient);
-                    }
-
-                    await _context.OrderProducts.AddAsync(newProduct);
-
-                    await _context.SaveChangesAsync();
-
-                    await transaction.CommitAsync();
-                    
-                    newOrder.Products.Add(newProduct);
-                }
-
-                await _context.Orders.AddAsync(newOrder);
-
                 await _context.SaveChangesAsync();
-                
-                await transaction.CommitAsync();
-
-                return Ok(newOrder);
-            }
-            catch (Exception ex) {
-                Console.WriteLine(ex);
-                await transaction.RollbackAsync();
             }
         }
 
-        return Problem(statusCode: 500, title: "Error while making order");
+        return Ok(_mapper.Map<OrderModel>(newOrder));
+                
     }
     
     [HttpDelete]
