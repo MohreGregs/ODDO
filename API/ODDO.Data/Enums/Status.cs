@@ -3,5 +3,6 @@
 public enum Status {
     Ordered,
     InProgress,
-    Done
+    Done,
+    Archived
 }
