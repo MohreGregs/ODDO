@@ -26,9 +26,6 @@ namespace ODDODesktop
         public MainWindow()
         {
             InitializeComponent();
-
-            AddProductDialog dialog = new AddProductDialog();
-            dialog.Show();
         }
 
         //private async void Button_Click(object sender, RoutedEventArgs e)

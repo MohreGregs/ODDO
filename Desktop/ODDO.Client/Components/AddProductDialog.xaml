@@ -6,7 +6,7 @@
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:local="clr-namespace:ODDO.Client.Components"
         mc:Ignorable="d"
-        Title="Neues Produkt anlegen" Height="450" Width="400">
+        Title="Neues Produkt anlegen" Height="500" Width="450" MaxHeight="500" MaxWidth="450">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -15,12 +15,12 @@
 
         <StackPanel Margin="20, 50">
             <Label Label.Content="Name"/>
-            <TextBox Name="FieldName" Margin="0,0,0,20">Namen eingeben</TextBox>
+            <TextBox Name="FieldName" Margin="0,0,0,20"/>
 
             <Label Label.Content="Preis"/>
-            <syncfusion:DoubleTextBox Name="FieldPrice" Margin="0,0,0,100"/>
+            <syncfusion:DoubleTextBox Name="FieldPrice" Margin="0,0,0,20"/>
 
-
+            <Label Name="ErrorMsg" Margin="0,0,0,100" Visibility="Hidden" Content="Name und Preis müssen ausgefüllt sein" Foreground="Red" FontSize="9"/>
 
             <Button Name="AddProductButton" Width="100" Click="AddProductButton_Click">Produkt einfügen</Button>
         </StackPanel>

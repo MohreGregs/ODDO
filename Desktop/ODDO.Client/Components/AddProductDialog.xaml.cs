@@ -40,8 +40,18 @@ namespace ODDO.Client.Components
             var name = FieldName.Text;
             var price = FieldPrice.Value;
 
-            if (name.IsNullOrWhiteSpace() && price == 0) return;
-            
+            //if (name.IsNullOrWhiteSpace() && price == 0) return;
+
+            if(name.IsNullOrWhiteSpace() || price == 0)
+            {
+                FieldName.BorderBrush  = Brushes.Red;
+                FieldPrice.BorderBrush = Brushes.Red;
+                ErrorMsg.Visibility = Visibility.Visible;
+                return;
+            }
+
+            ErrorMsg.Visibility = Visibility.Hidden;
+
             var newProduct = new AddProductModel();
             newProduct.Name  = FieldName.Text;
             newProduct.Price = (double) FieldPrice.Value;
