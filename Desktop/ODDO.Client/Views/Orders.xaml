@@ -12,7 +12,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock FontWeight="Bold" FontSize="16">Bestellungen</TextBlock>
-        <ListView Grid.Row="1" Name="OrderList" Width="650" HorizontalAlignment="Left">
+        <Button Click="ReloadOrders" Margin="550,0,0,0" Width="100" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top">Aktualisieren</Button>
+        <ListView Grid.Row="2" Name="OrderList" Width="650" HorizontalAlignment="Left">
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -60,7 +61,7 @@
             </ListView.View>
         </ListView>
         <TextBlock Margin="660,0,0,0" FontWeight="Bold" FontSize="16">Gerichte</TextBlock>
-        <ListView Grid.Row="1" Name="ProductList" Margin="660,0,0,0" Width="460" HorizontalAlignment="Left">
+        <ListView Grid.Row="2" Name="ProductList" Margin="660,0,0,0" Width="auto" HorizontalAlignment="Left">
             <ListView.Resources>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -73,12 +74,12 @@
                             <GridViewColumnHeader Name="Name">Name</GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding Count}">
+                    <GridViewColumn Width="50" DisplayMemberBinding="{Binding Count}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Name="Count">Anzahl</GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn Width="150" DisplayMemberBinding="{Binding Extras}">
+                    <GridViewColumn DisplayMemberBinding="{Binding Extras}">
                         <GridViewColumn.Header>
                             <GridViewColumnHeader Name="Extras">Extras</GridViewColumnHeader>
                         </GridViewColumn.Header>
