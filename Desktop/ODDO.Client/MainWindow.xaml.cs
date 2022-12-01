@@ -27,11 +27,5 @@ namespace ODDODesktop
         {
             InitializeComponent();
         }
-
-        //private async void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var products = await API.GetProduct();
-        //    Console.WriteLine(products.First().Name);
-        //}
     }
 }
