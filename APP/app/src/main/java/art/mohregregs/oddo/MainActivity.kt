@@ -96,7 +96,7 @@ fun AppMainScreen(
             }
 
             composable(DrawerScreens.CurrentOrders.route){
-                CurrentOrders(navController)
+                CurrentOrders(navController, orderViewModel)
             }
         }
 
