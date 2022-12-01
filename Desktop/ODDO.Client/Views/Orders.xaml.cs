@@ -1,5 +1,6 @@
 ﻿using ODDO.Client.Components;
 using ODDO.Client.Network;
+using ODDO.Data.Enums;
 using ODDO.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.TextFormatting;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
@@ -105,11 +107,62 @@ namespace ODDO.Client.Views
             getOrders();
         }
 
+        private async void SetInProgressStatus(object sender, RoutedEventArgs e)
+        {
+            int id = (int)((Button)sender).Tag;
+            await API.SetStatus(id, Data.Enums.Status.InProgress);
+            getOrders();
+        }
+
         private async void SetReadyStatus(object sender, RoutedEventArgs e)
         {
             int id = (int)((Button)sender).Tag;
             await API.SetStatus(id, Data.Enums.Status.Done);
             getOrders();
+        }
+
+        private async void OpenOrder(object sender, RoutedEventArgs e)
+        {
+            int id = (int)((Button)sender).Tag;
+            var order = this.data.Find(o => o.Id == 1);
+            if (order != null)
+            {
+                var productList = order.Products;
+
+                List<ProductListEntry> entries = new List<ProductListEntry>();
+
+                foreach (var product in productList )
+                {
+                    ProductListEntry entry = new ProductListEntry();
+                    entry.Name = product.Product.Name;
+                    entry.Count = product.Count.ToString();
+                    var ingredients = product.Ingredients;
+                    string extras = "";
+                    if (ingredients != null)
+                    {
+                        bool first = true;
+                        foreach (OrderProductIngredientModel ingredient in ingredients)
+                        {
+                            if (!first)
+                            {
+                                extras += ", ";
+                            }
+                            extras += ingredient.Ingredient.Name;
+                        }
+                        entry.Extras = extras;
+                    }
+                    entries.Add(entry);
+                }
+
+                ProductList.ItemsSource = entries;
+            }
+        }
+
+        public class ProductListEntry
+        {
+            public string Name { get; set; }
+            public string Count { get; set; }
+            public string Extras { get; set; }
         }
     }
 }
