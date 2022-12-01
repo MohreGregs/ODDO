@@ -5,11 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import art.mohregregs.oddo.network.ApiEndpoint
-import art.mohregregs.oddo.network.models.IngredientModel
-import art.mohregregs.oddo.network.models.OrderProductIngredientModel
-import art.mohregregs.oddo.network.models.OrderProductModel
-import art.mohregregs.oddo.network.models.ProductModel
+import art.mohregregs.oddo.network.models.*
+import art.mohregregs.oddo.network.models.addModels.AddOrderModel
 import art.mohregregs.oddo.network.models.addModels.AddOrderProductIngredientModel
+import art.mohregregs.oddo.network.models.addModels.AddOrderProductModel
 import art.mohregregs.oddo.views.viewmodel.models.IngredientWithCount
 import art.mohregregs.oddo.views.viewmodel.models.ProductWithCount
 
@@ -19,6 +18,9 @@ class OrderViewModel: ViewModel() {
 
     private var _productsToOrder = MutableLiveData(listOf<OrderProductModel>())
     val productsToOrder: LiveData<List<OrderProductModel>> = _productsToOrder
+
+    private var _currentOrdersOfTable = MutableLiveData(listOf<OrderModel>())
+    val currentOrdersOfTable: LiveData<List<OrderModel>> = _currentOrdersOfTable
 
     fun getProducts(context: Context){
         ApiEndpoint.getProducts(context){ data ->
@@ -33,20 +35,63 @@ class OrderViewModel: ViewModel() {
         }
     }
 
+    fun addOrder(context: Context){
+        ApiEndpoint.addOrder(context, getOrderBody()){
+            if (it != null) {
+                _currentOrdersOfTable.value = _currentOrdersOfTable.value!!.plus(it)
+            }
+        }
+    }
+
+    private fun getOrderBody(): AddOrderModel{
+        var products: List<AddOrderProductModel> = listOf()
+
+        _productsToOrder.value?.forEach { product ->
+            var ingredients: List<AddOrderProductIngredientModel> = listOf()
+
+            product.ingredients.forEach { ingredient ->
+                ingredients = ingredients.plus(AddOrderProductIngredientModel(ingredientId = ingredient.ingredient.id, count = ingredient.count))
+            }
+
+            products = products.plus(AddOrderProductModel(productId = product.product.id, count = product.count, ingredients = ingredients))
+        }
+        return AddOrderModel(tableId = 1, products = products)
+    }
+
     fun addProductToOrder(product: ProductWithCount){
         if(_productsToOrder.value?.find { x -> x.product == product.product && x.product.ingredients == x.ingredients } != null){
             return
         }
 
         var ingredients = listOf<OrderProductIngredientModel>()
-        var orderIngredients = ingredients.filter { x -> x.count > 0 }
+        var orderIngredients = product.ingredients.filter { x -> x.count > 0 }
 
         orderIngredients.forEach { ingredient ->
             ingredients = ingredients.plus(OrderProductIngredientModel(ingredient = ingredient.ingredient, count = ingredient.count))
         }
 
         _productsToOrder.value = _productsToOrder.value!!.plus(OrderProductModel(product = product.product, count = product.count, ingredients = ingredients))
+    }
 
+    fun removeProductFromOrder(productModel: OrderProductModel): Boolean{
+        if(!_productsToOrder.value!!.contains(productModel)) return false
+
+        _productsToOrder.value = _productsToOrder.value!!.minus(productModel)
+
+        return _productsToOrder.value!!.isEmpty()
+    }
+
+    // Ingredient is not removed
+    fun removeExtraFromProduct(product: OrderProductModel, ingredientModel: OrderProductIngredientModel){
+        val productList  = _productsToOrder.value
+        val product = productList?.find { x -> x.id == product.id} ?: return
+
+        val ingredientToRemove = product.ingredients.find { x -> x.id == ingredientModel.id }  ?: return
+
+        product.ingredients = product.ingredients.minus(ingredientToRemove)
+
+        _productsToOrder.value = listOf()
+        _productsToOrder.value = _productsToOrder.value!!.plus(productList)
     }
 
     fun resetProductCount(productId: Int){

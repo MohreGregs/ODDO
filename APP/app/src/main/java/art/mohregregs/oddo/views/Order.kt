@@ -22,6 +22,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
+import art.mohregregs.oddo.format
+import art.mohregregs.oddo.network.models.OrderProductModel
 import art.mohregregs.oddo.views.viewmodel.models.IngredientWithCount
 import art.mohregregs.oddo.views.viewmodel.models.ProductWithCount
 
@@ -29,11 +31,13 @@ import art.mohregregs.oddo.views.viewmodel.models.ProductWithCount
 fun Order(navController: NavController, orderViewModel: OrderViewModel){
     val products: List<ProductWithCount> by orderViewModel.products.observeAsState(listOf())
 
+
     OrderScreen(navController, products, orderViewModel)
 }
 
 @Composable
 fun OrderScreen(navController: NavController, products: List<ProductWithCount>, orderViewModel: OrderViewModel){
+    val orderedProducts: List<OrderProductModel> by orderViewModel.productsToOrder.observeAsState(listOf())
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,17 +46,17 @@ fun OrderScreen(navController: NavController, products: List<ProductWithCount>, 
         verticalArrangement = Arrangement.Center
     ) {
         if (products.isNotEmpty()) {
-            LazyColumn() {
+            LazyColumn(modifier = Modifier.weight(1f)) {
                 items(items = products, itemContent ={ product ->
                     ProductListItem(productModel = product, orderViewModel = orderViewModel)
                     Divider(color = Color.Gray, thickness = 1.dp)
                 })
             }
-            Spacer(modifier = Modifier.weight(1f))
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
+                enabled = orderedProducts.isNotEmpty(),
                 onClick = {
                     navController.navigate(DrawerScreens.Checkout.route)
                 }
@@ -83,7 +87,7 @@ fun ProductListItem(productModel: ProductWithCount, orderViewModel: OrderViewMod
                         Text(text = productModel.product.name, modifier = Modifier.padding(4.dp), fontSize = 30.sp)
                     },
                     secondaryText = {
-                        Text(text = productModel.product.price.toString() + "€")
+                        Text(text = productModel.product.price.format(2) + "€")
                     },
                     trailing = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -120,7 +124,7 @@ fun ProductListItem(productModel: ProductWithCount, orderViewModel: OrderViewMod
                     Row(modifier = Modifier.padding(5.dp)) {
                         Text(text = stringResource(R.string.total) + ":")
                         Spacer(modifier = Modifier.weight(1f))
-                        Text(text = orderViewModel.getTotalAmountOfProduct(productModel).toString() + "€")
+                        Text(text = orderViewModel.getTotalAmountOfProduct(productModel).format(2) + "€")
                     }
 
                     Button(onClick = {
@@ -144,7 +148,7 @@ fun ExtraItem(productId: Int, extra: IngredientWithCount, orderViewModel: OrderV
         Text(text = extra.ingredient.name)
     },
     secondaryText = {
-        Text(text = extra.ingredient.price.toString() + "€")
+        Text(text = extra.ingredient.price.format(2) + "€")
     },
     trailing = {
         Row(verticalAlignment = Alignment.CenterVertically){

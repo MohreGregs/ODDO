@@ -17,4 +17,5 @@
     <string name="no_products_available">No Products available</string>
     <string name="total">Total</string>
     <string name="add_to_order">Add to order</string>
+    <string name="delete_product">remove product</string>
 </resources>

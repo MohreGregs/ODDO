@@ -17,4 +17,5 @@
     <string name="no_products_available">Keine Producte verfügbar</string>
     <string name="total">Gesamt</string>
     <string name="add_to_order">Zur Bestellung hinzufügen</string>
+    <string name="delete_product">product entfernen</string>
 </resources>
