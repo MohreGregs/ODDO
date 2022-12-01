@@ -22,8 +22,9 @@ public class IngredientController: BaseController<IngredientController, Ingredie
     [Route("getById")]
     public async Task<ActionResult<IngredientEntity?>> GetById(int id = 0) {
         if (id <= 0) return BadRequest();
-
-        return await _context.Set<IngredientEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        
+        var ingredient = await _context.Set<IngredientEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        return Ok(_mapper.Map<IngredientModel>(ingredient));
     }
 
     [HttpPost]
@@ -48,7 +49,7 @@ public class IngredientController: BaseController<IngredientController, Ingredie
             return StatusCode(500, ex.ToString());
         }
 
-        return Ok(obj);
+        return Ok(_mapper.Map<IngredientModel>(obj));
     }
 
     [HttpPut]
@@ -64,7 +65,7 @@ public class IngredientController: BaseController<IngredientController, Ingredie
 
         await _context.SaveChangesAsync();
 
-        return Ok(objToEdit);
+        return Ok(_mapper.Map<IngredientModel>(objToEdit));
     }
 
     [HttpDelete]

@@ -23,7 +23,9 @@ public class TableController: BaseController<TableController, TableEntity, Table
     public async Task<ActionResult<TableEntity?>> GetById(int id = 0) {
         if (id <= 0) return BadRequest();
 
-        return await _context.Set<TableEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        var table = await _context.Set<TableEntity>().FirstOrDefaultAsync(x => x.Id == id);
+
+        return Ok(_mapper.Map<TableModel>(table));
     }
 
     [HttpPost]
@@ -48,7 +50,7 @@ public class TableController: BaseController<TableController, TableEntity, Table
             return StatusCode(500, ex.ToString());
         }
 
-        return Ok(obj);
+        return Ok(_mapper.Map<TableModel>(obj));
     }
 
     [HttpPut]
@@ -64,7 +66,7 @@ public class TableController: BaseController<TableController, TableEntity, Table
 
         await _context.SaveChangesAsync();
 
-        return Ok(objToEdit);
+        return Ok(_mapper.Map<TableModel>(objToEdit));
     }
 
     [HttpDelete]

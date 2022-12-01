@@ -22,8 +22,9 @@ public class WaiterController: BaseController<WaiterController, WaiterEntity, Wa
     [Route("getById")]
     public async Task<ActionResult<WaiterEntity?>> GetById(int id = 0) {
         if (id <= 0) return BadRequest();
-
-        return await _context.Set<WaiterEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        
+        var waiter = await _context.Set<WaiterEntity>().FirstOrDefaultAsync(x => x.Id == id);
+        return Ok(_mapper.Map < WaiterModel>(waiter));
     }
 
     [HttpPost]
@@ -48,7 +49,7 @@ public class WaiterController: BaseController<WaiterController, WaiterEntity, Wa
             return StatusCode(500, ex.ToString());
         }
 
-        return Ok(obj);
+        return Ok(_mapper.Map<WaiterModel>(obj));
     }
 
     [HttpPut]
@@ -64,7 +65,7 @@ public class WaiterController: BaseController<WaiterController, WaiterEntity, Wa
 
         await _context.SaveChangesAsync();
 
-        return Ok(objToEdit);
+        return Ok(_mapper.Map<WaiterModel>(objToEdit));
     }
 
     [HttpDelete]
