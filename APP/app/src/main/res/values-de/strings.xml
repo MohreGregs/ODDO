@@ -3,7 +3,7 @@
     <string name="home">Home</string>
     <string name="login">Einloggen</string>
     <string name="order">Bestellung</string>
-    <string name="checkout">Checkout</string>
+    <string name="checkout">Bezahlen</string>
     <string name="current_order">Laufende Bestellungen</string>
     <string name="welcome_to">Willkommen in</string>
     <string name="start_order">Bestellung starten</string>

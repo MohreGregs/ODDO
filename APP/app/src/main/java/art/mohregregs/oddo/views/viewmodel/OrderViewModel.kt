@@ -9,6 +9,7 @@ import art.mohregregs.oddo.network.models.IngredientModel
 import art.mohregregs.oddo.network.models.OrderProductIngredientModel
 import art.mohregregs.oddo.network.models.OrderProductModel
 import art.mohregregs.oddo.network.models.ProductModel
+import art.mohregregs.oddo.network.models.addModels.AddOrderProductIngredientModel
 import art.mohregregs.oddo.views.viewmodel.models.IngredientWithCount
 import art.mohregregs.oddo.views.viewmodel.models.ProductWithCount
 
@@ -32,14 +33,17 @@ class OrderViewModel: ViewModel() {
         }
     }
 
-    fun addProductToOrder(product: ProductModel){
-        if(isProductInOrder(product.id)){
-            val product = _productsToOrder.value!!.find { x-> x.id == product.id }
-            product!!.count++
+    fun addProductToOrder(product: ProductWithCount){
+
+        var ingredients = listOf<OrderProductIngredientModel>()
+        var orderIngredients = ingredients.filter { x -> x.count > 0 }
+
+        orderIngredients.forEach { ingredient ->
+            ingredients = ingredients.plus(OrderProductIngredientModel(ingredient = ingredient.ingredient, count = ingredient.count))
         }
-        else{
-            _productsToOrder.value = _productsToOrder.value!!.plus(OrderProductModel(product = product, count = 1, ingredients = listOf()))
-        }
+
+        _productsToOrder.value = _productsToOrder.value!!.plus(OrderProductModel(product = product.product, count = product.count, ingredients = ingredients))
+
     }
 
     fun addIngredientToProduct(productId: Int, ingredient: IngredientModel){
@@ -56,7 +60,7 @@ class OrderViewModel: ViewModel() {
 
     private fun isIngredientInProduct(ingredients: List<OrderProductIngredientModel>, extraId: Int): Boolean = ingredients.find { x -> x.ingredient.id == extraId} != null
 
-    fun setAmountOfExtra(productId: Int, extraId: Int, amount: Int){
+    fun setAmountOfProduct(productId: Int, amount: Int){
         var newProductToOrderList: ArrayList<ProductWithCount> = _products.value as ArrayList<ProductWithCount>
         var product: ProductWithCount? =
             newProductToOrderList.find { x -> x.product.id == productId } ?: return
@@ -64,5 +68,22 @@ class OrderViewModel: ViewModel() {
         product!!.count = amount
         _products.value = listOf()
         _products.value = _products.value?.plus(newProductToOrderList)
+    }
+
+    fun setAmountOfExtra(productId: Int, extraId: Int, amount: Int){
+        var newProductToOrderList: ArrayList<ProductWithCount> = _products.value as ArrayList<ProductWithCount>
+        var product: ProductWithCount? =
+            newProductToOrderList.find { x -> x.product.id == productId } ?: return
+
+        var extra: IngredientWithCount? =
+            product?.ingredients?.find { x -> x.ingredient.id == extraId } ?: return
+
+        extra!!.count = amount
+        _products.value = listOf()
+        _products.value = _products.value?.plus(newProductToOrderList)
+    }
+
+    fun getTotalAmount(){
+
     }
 }
