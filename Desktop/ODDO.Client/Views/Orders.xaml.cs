@@ -121,10 +121,11 @@ namespace ODDO.Client.Views
             getOrders();
         }
 
-        private async void OpenOrder(object sender, RoutedEventArgs e)
+        private void OpenOrder(object sender, RoutedEventArgs e)
         {
             int id = (int)((Button)sender).Tag;
             var order = this.data.Find(o => o.Id == 1);
+
             if (order != null)
             {
                 var productList = order.Products;
@@ -136,11 +137,14 @@ namespace ODDO.Client.Views
                     ProductListEntry entry = new ProductListEntry();
                     entry.Name = product.Product.Name;
                     entry.Count = product.Count.ToString();
+
                     var ingredients = product.Ingredients;
                     string extras = "";
+
                     if (ingredients != null)
                     {
                         bool first = true;
+
                         foreach (OrderProductIngredientModel ingredient in ingredients)
                         {
                             if (!first)
