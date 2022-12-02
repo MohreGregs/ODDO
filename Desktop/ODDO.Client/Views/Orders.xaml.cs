@@ -1,22 +1,10 @@
-﻿using ODDO.Client.Components;
-using ODDO.Client.Network;
-using ODDO.Data.Enums;
+﻿using ODDO.Client.Network;
 using ODDO.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Media.TextFormatting;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ODDO.Client.Views
 {
@@ -123,8 +111,9 @@ namespace ODDO.Client.Views
 
         private void OpenOrder(object sender, RoutedEventArgs e)
         {
-            int id = (int)((Button)sender).Tag;
-            var order = this.data.Find(o => o.Id == 1);
+            var btn = (Button)sender;
+            int id = (int)btn.Tag;
+            var order = this.data.Find(o => o.Id == id);
 
             if (order != null)
             {
@@ -132,7 +121,7 @@ namespace ODDO.Client.Views
 
                 List<ProductListEntry> entries = new List<ProductListEntry>();
 
-                foreach (var product in productList )
+                foreach (var product in productList)
                 {
                     ProductListEntry entry = new ProductListEntry();
                     entry.Name = product.Product.Name;
@@ -150,6 +139,9 @@ namespace ODDO.Client.Views
                             if (!first)
                             {
                                 extras += ", ";
+                            } else
+                            {
+                                first = false;
                             }
                             extras += ingredient.Ingredient.Name;
                         }
