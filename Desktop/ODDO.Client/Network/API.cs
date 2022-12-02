@@ -14,7 +14,7 @@ namespace ODDO.Client.Network
 {
     public partial class API
     {
-        public static string Url => "https://localhost:7095/";
+        public static string Url => "http://localhost:5000/";
 
         //controller = API-Object(Table(from which you want to get the record)) | action = API-Method(selectById)
         public static async Task<T?> GetRequest<T>(string controller, string action = "")

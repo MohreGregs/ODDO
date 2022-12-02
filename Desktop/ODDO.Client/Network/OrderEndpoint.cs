@@ -33,7 +33,7 @@ namespace ODDO.Client.Network
 
         public static async Task<Object?> SetStatus(int id, Status status)
         {
-            return await GetRequest<List<Object>>("order", $"setStatus?tableid={id}&status={status}");
+            return await GetRequest<List<Object>>("order", $"setStatus?id={id}&status={status}");
         }
 
         public static async Task<OrderModel?> AddOrder(object order)

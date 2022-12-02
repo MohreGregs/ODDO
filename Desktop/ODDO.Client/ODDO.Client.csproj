@@ -6,14 +6,24 @@
         <UseWPF>true</UseWPF>
         <LangVersion>10</LangVersion>
         <TargetFramework>net6.0-windows</TargetFramework>
+        <ApplicationIcon>Assets\Images\Icon.ico</ApplicationIcon>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="Assets\Images\Icon.ico" />
+    </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\API\ODDO.Data\ODDO.Data.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+      <Folder Include="Views\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
+      <PackageReference Include="Syncfusion.Shared.WPF" Version="20.3.0.59" />
     </ItemGroup>
 
 </Project>

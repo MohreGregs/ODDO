@@ -1,9 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\DesktopClient",
-    "\\DesktopClient\\ODDODesktop"
+    "\\Desktop",
+    "\\Desktop\\ODDO.Client"
   ],
-  "SelectedNode": "\\.idea",
+  "SelectedNode": "\\Desktop\\ODDO.Client\\MainWindow.xaml",
   "PreviewInSolutionExplorer": false
 }
