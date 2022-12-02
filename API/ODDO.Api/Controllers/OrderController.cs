@@ -50,7 +50,8 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
     public async Task<ActionResult<OrderModel?>> GetById(int id = 0) {
         if (id <= 0) return BadRequest();
 
-        return await _context.Set<OrderModel>().FirstOrDefaultAsync(x => x.Id == id);
+        var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == id);
+        return Ok(_mapper.Map<OrderModel>(order));
     }
 
     [HttpGet]
@@ -64,7 +65,7 @@ public class OrderController: BaseController<OrderController, OrderEntity, Order
 
         await _context.SaveChangesAsync();
 
-        return Ok(order);
+        return Ok(_mapper.Map<OrderModel>(order));
     }
 
     [HttpPost]
