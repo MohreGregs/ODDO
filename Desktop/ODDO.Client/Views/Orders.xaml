@@ -23,7 +23,7 @@
                 <GridView>
                     <GridViewColumn Width="100" DisplayMemberBinding="{Binding Id}">
                         <GridViewColumn.Header>
-                            <GridViewColumnHeader Name="Id" Click="OnSort">Buchungs-Nr.</GridViewColumnHeader>
+                            <GridViewColumnHeader Name="Id" Click="OnSort">Bestellungs-Nr.</GridViewColumnHeader>
                         </GridViewColumn.Header>
                     </GridViewColumn>
                     <GridViewColumn Width="200" DisplayMemberBinding="{Binding Waiter}">
